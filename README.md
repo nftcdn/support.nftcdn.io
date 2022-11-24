@@ -117,9 +117,10 @@ To further protect users' bandwidth, requests are restricted to a single domain 
 
 ### HTTP Status
 
-* On success, 200 or 304 is returned depending on request headers.
-* When the image is not found, 404 is returned (no image for the NFT or not found/acquired image yet from storage).
-* On invalid HMAC, Referer or expired URL, 403 is returned.
+* **`200`** or **`304`** is returned on success depending on request headers.
+* **`400`** is returned on invalid requests (incorrect URL format or missing query parameters).
+* **`403`** is returned on invalid HMAC or Referer.
+* **`404`** is returned when the image is not found (no image for the NFT or not found/acquired image yet from storage).
 
 # References
 * [CIP 14 - User-Facing Asset Fingerprint](https://cips.cardano.org/cips/cip14/)
