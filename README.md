@@ -3,7 +3,6 @@
 - [/image](#image)
     - [Size](#size)
     - [Authentication Code](#authentication-code-tk-token-parameter)
-    - [URLs Expiration](#urls-expiration)
     - [Hotlink Protection & CORS Restrictions](#hotlink-protection--cors-restrictions)
     - [HTTP Status](#http-status)
 - [References](#references)
@@ -22,11 +21,11 @@ https://asset1xxx.preview.nftcdn.io[?size=PIXELS]
 ```
 **Preprod network**
 ```
-https://asset1xxx.preprod.nftcdn.io?tk=HMAC[&size=PIXELS][&ts=TIMESTAMP&exp=EXPIRATION]
+https://asset1xxx.preprod.nftcdn.io?tk=HMAC[&size=PIXELS]
 ```
 **Mainnet network**
 ```
-https://asset1xxx.YOUR_SUBDOMAIN.nftcdn.io?tk=HMAC[&size=PIXELS][&ts=TIMESTAMP&exp=EXPIRATION]
+https://asset1xxx.YOUR_SUBDOMAIN.nftcdn.io?tk=HMAC[&size=PIXELS]
 ```
 
 `asset1xxx` is the [CIP 14](https://cips.cardano.org/cips/cip14/) fingerprint of an asset.
@@ -104,25 +103,6 @@ https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?tk=
 
 ***Note:***
 *The order of query parameters is not important but the same order must be used when generating the HMAC and when using the URL because it is not possible to guess the initial order when checking the URL authenticity. It is therefore possible to transmit only HMAC values to your frontend instead of full URLs as long as you keep the query parameters in the same order.*
-
-### URLs Expiration
-
-To further secure your URLs, you can include an expiration time. This prevents unwanted reused URLs to work forever.
-
-⚠️ Be sure not to choose an expiration time shorter than browsers cache to prevent breaking images. Currently our images are valid 25h in browsers cache. This value will likely decrease in the future when optimizing metadata update latency. We advise to set an expiration time of a few days for URLs generated on the fly (for example 5 days or 1 week). Be careful not to set an expiration time for URLs generated permanently.
-
-To set an URL expiration time, you need to add unix timestamp `ts` and expiration time `exp` parameters, both in seconds.
-
-`ts` represents the start time of validity (not enforced currently) and `exp` the number of seconds after which the URL becomes invalid.
-
-The minimum valid value for `ts` is 1 (not 0).
-
-**Example:**  
-https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?size=256&ts=1668510415&exp=1103760000&tk=775Qy04NgOVpj3BdIWmCD337_wRXJf1crqirJJKnpfE  
-```
-<img src="https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?size=256&ts=1668510415&exp=1103760000&tk=775Qy04NgOVpj3BdIWmCD337_wRXJf1crqirJJKnpfE">
-```
-![asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv](https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?size=256&ts=1668510415&exp=1103760000&tk=775Qy04NgOVpj3BdIWmCD337_wRXJf1crqirJJKnpfE)
 
 ### Hotlink Protection & CORS Restrictions
 
