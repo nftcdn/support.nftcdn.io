@@ -10,7 +10,7 @@
 
 **nftcdn.io** aims at making displaying Cardano NFTs as easy, efficient and secure as possible without requiring knowledge of the underlying standards and storage used.
 
-The first version `/image` endpoint focuses on speed and security over fidelity by providing an optimized still image from CIP25, CIP68 and CNFT v0.01 standards `image` property, as well as the [Token Registry](https://github.com/cardano-foundation/cardano-token-registry) (CIP 68 & Token Registry support incoming).
+The first version `/image` endpoint focuses on speed and security over fidelity by providing an optimized still image from CIP25 (v1+v2), CIP68 (222+333) and CNFT v0.01 standards `image` property, as well as the [Token Registry](https://github.com/cardano-foundation/cardano-token-registry) (Token Registry support incoming).
 
 Later versions will focus on providing a more complete viewing experience.
 
@@ -55,7 +55,7 @@ https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?siz
 ![asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf](https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256)
 
 ***Note:***
-*For now, on-chain and SVG images are returned as is. They will very likely be rasterized and rescaled too for the public release.*
+*For now, SVG images are returned as is. They will be rasterized and rescaled in the coming weeks.*
 
 
 ## /metadata
