@@ -10,7 +10,7 @@
 
 **nftcdn.io** aims at making displaying Cardano NFTs as easy, efficient and secure as possible without requiring knowledge of the underlying standards and storage used.
 
-The first version `/image` endpoint focuses on speed and security over fidelity by providing an optimized still image from CIP25 (v1+v2), CIP68 (222+333) and CNFT v0.01 standards `image` property, as well as the [Token Registry](https://github.com/cardano-foundation/cardano-token-registry) (Token Registry support incoming).
+The first version `/image` endpoint focuses on speed and security over fidelity by providing an optimized still image from CIP25 (v1+v2), CIP68 (222+333) and CNFT v0.01 standards `image` property, as well as the [Mainnet Token Registry](https://github.com/cardano-foundation/cardano-token-registry) and [Testnet Token Registry](https://github.com/input-output-hk/metadata-registry-testnet).
 
 Later versions will focus on providing a more complete viewing experience.
 
@@ -54,9 +54,6 @@ https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?siz
 ```
 ![asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf](https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256)
 
-***Note:***
-*For now, SVG images are returned as is. They will be rasterized and rescaled in the coming weeks.*
-
 
 ## /metadata
 
@@ -88,10 +85,11 @@ The `tk` authentication code is described [here](#authentication-code-tk-token-p
 * `name`: Token display name (to be displayed to users)
 * `policy`: Policy ID
 * `fingerprint`: CIP-14 Fingerprint
+* `decimals`: Optional number of decimals (0 by default)
 * `metadata`: Token original metadata
 
 **Example:**  
-https://asset1rhmwfllvhgczltxm0y7rdump6g5p5ax4c25csq.poolpm.nftcdn.io/metadata?tk=rGnnDpPZyq_UJvUF0w-UhPkFJ_SoSKA5c1aqfIQ-3wU
+https://asset1rhmwfllvhgczltxm0y7rdump6g5p5ax4c25csq.cardano.nftcdn.io/metadata?tk=_06PkNXFjEFxvuOKJdac-iVVyQW9m6na0c8IeU2pskE
 
 ```
 {
