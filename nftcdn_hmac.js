@@ -6,6 +6,7 @@ const { URLSearchParams } = require('url');
 function nftcdnUrl(domain, key, token, uri, params = {}) {
     params.tk = "";
     let url = buildUrl(domain, token, uri, params);
+    // base64url codec requires Node.js >= 16, else 3rd party libraries can be used
     params.tk = crypto.createHmac("sha256", key).update(url).digest("base64url");
     return buildUrl(domain, token, uri, params);
 }
