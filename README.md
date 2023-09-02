@@ -132,7 +132,7 @@ On `preprod`, the authentication code is also required for test purpose so the k
 
 ⚠️  For a website, you should not expose your secret key in your frontend, so you would typically compute the HMAC codes from your backend, then send them or the whole URLs to your frontend to use them there. Depending on your architecture, it is likely beneficial to send those needed all at once as early as possible to avoid a lot of later requests.
 
-### Node.js JavaScript example:
+### Node.js 16+ JavaScript example:
 ```
 const crypto = require('crypto');
 const { URLSearchParams } = require('url');
