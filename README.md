@@ -45,7 +45,7 @@ Without `size` parameter, the original image from the NFT `image` property is re
 
 With a `size` parameter in pixels, the image is rescaled if needed to have its largest side equal to `size`, and returned in `WebP` format. If the image is already smaller than the requested size, it is just converted to `WebP`. For animated images like GIFs, the first frame is used.
 
-⚠️  Only power of two sizes (32, 64, 128, 256, 1024) are supported to optimize global caching and performance. If you need other sizes, please contact us.
+⚠️  Only power of two sizes (32, 64, 128, 256, 512, 1024) are supported to optimize global caching and performance. If you need other sizes, please contact us.
 
 **Example:**  
 https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256  
