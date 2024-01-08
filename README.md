@@ -153,9 +153,15 @@ function buildUrl(domain, asset, uri, params) {
     const searchParams = new URLSearchParams(params);
     return `https://${asset}.${domain}.nftcdn.io${uri}?${searchParams.toString()}`;
 }
+
+// Your nftcdn.io subdomain and secret key
+let [domain, key] = ["preprod", Buffer.from("7FoxfBgV2k+RSz6UUts3/fG1edG7oIGXxdtIVCdalaI=", "base64")];
+
+// Test
+console.log(nftcdnUrl(domain, key, "asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv", "/image", { size: 256 }));
 ```
 
-Working examples for `preprod` in JavaScript, Python and PHP are included in the repository.
+Working examples for `preprod` in [JavaScript](nftcdn_hmac.js), [Python](nftcdn_hmac.py), [Ruby](nftcdn_hmac.rb) and [PHP](nftcdn_hmac.php) are included in [the repository](/).
 
 Asset fingerprints can be computed using Open Source libraries, for example https://github.com/Emurgo/cip14-js in JavaScript.
 
