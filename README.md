@@ -2,7 +2,9 @@
 
 - [/image](#image)
     - [Size](#size)
+- [/preview](#preview-beta)
 - [/metadata](#metadata)
+- [/files](#files)
 - [Authentication Code](#authentication-code-tk-token-parameter)
 - [Hotlink Protection & CORS Restrictions](#hotlink-protection--cors-restrictions)
 - [HTTP Status Codes](#http-status-codes)
@@ -18,6 +20,8 @@ Later versions will focus on providing a more complete viewing experience.
 ## /image
 
 The `/image` endpoint returns a token image usable in an HTML `<img>` tag.
+
+When `size` parameter is used, the returned image is always a rescaled and optimized still image (1 frame) in WebP format.
 
 **Preview network**
 ```
@@ -47,12 +51,53 @@ With a `size` parameter in pixels, the image is rescaled if needed to have its l
 
 ⚠️  Only power of two sizes (32, 64, 128, 256, 512, 1024) are supported to optimize global caching and performance. If you need other sizes, please contact us.
 
-**Example:**  
+### Example
 https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256  
 ```
 <img src="https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256">  
 ```
 ![asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf](https://asset1cf4y9alel09d4xzheqcjn29mrla8f3k8pnzrdf.preview.nftcdn.io/image?size=256)
+
+
+## /preview (beta)
+
+The `/preview` endpoint returns an image usable in an HTML `<img>` tag.
+
+It is similar to [`/image`](#image) with the following difference:
+* GIF images are rescaled and transcoded to WebP but stay animated
+* SVG images pass through and are therefore not converted to WebP (this may require additional CSS to position them correctly)
+* If a supposedly high resolution image is available in metadata `files[0]`, it is used instead of `/image` when the requested size is above 512 (excluded).
+
+Overall, compared to `/image`, it favors fidelity over consistency, security, size and speed.
+
+The endpoint is in *beta* status because some changes are still considered.
+For example it is planned to return a preview of the rendered HTML for HTML NFTs.
+
+**Preview network**
+```
+https://asset1xxx.preview.nftcdn.io/preview[?size=PIXELS]
+```
+**Preprod network**
+```
+https://asset1xxx.preprod.nftcdn.io/preview?tk=HMAC[&size=PIXELS]
+```
+**Mainnet network**
+```
+https://asset1xxx.YOUR_SUBDOMAIN.nftcdn.io/preview?tk=HMAC[&size=PIXELS]
+```
+
+**preview** endpoint is public and does not require URLs to be authenticated.  
+**preprod** and **mainnet** ones are secured and require URLs to be authenticated.
+
+The `tk` authentication code is described [here](#authentication-code-tk-token-parameter).  
+The `size` parameter is described [here](#size)
+
+### Example
+https://asset16jtevv5j9t3cv0u5usv26nypqjj3qge7mfcvjx.cardano.nftcdn.io/preview?size=128&tk=3iQicBdtjNFy2hYvpdH3oGjPItbnNgzEXBbvumz1cZE
+```
+<img src="https://asset16jtevv5j9t3cv0u5usv26nypqjj3qge7mfcvjx.cardano.nftcdn.io/preview?size=128&tk=3iQicBdtjNFy2hYvpdH3oGjPItbnNgzEXBbvumz1cZE">
+```
+![asset16jtevv5j9t3cv0u5usv26nypqjj3qge7mfcvjx](https://asset16jtevv5j9t3cv0u5usv26nypqjj3qge7mfcvjx.cardano.nftcdn.io/preview?size=128&tk=3iQicBdtjNFy2hYvpdH3oGjPItbnNgzEXBbvumz1cZE)
 
 
 ## /metadata
@@ -88,7 +133,7 @@ The `tk` authentication code is described [here](#authentication-code-tk-token-p
 * `decimals`: Optional number of decimals (0 by default)
 * `metadata`: Token original metadata
 
-**Example:**  
+### Example
 https://asset1rhmwfllvhgczltxm0y7rdump6g5p5ax4c25csq.cardano.nftcdn.io/metadata?tk=_06PkNXFjEFxvuOKJdac-iVVyQW9m6na0c8IeU2pskE
 
 ```
@@ -114,6 +159,63 @@ https://asset1rhmwfllvhgczltxm0y7rdump6g5p5ax4c25csq.cardano.nftcdn.io/metadata?
 
 ***Notes:***  
 * *For CIP-68 tokens, the `id` and `fingerprint` are the reference token ones.*
+
+## /files
+The `/files` endpoint returns CIP25 or CIP68 additional files when available.
+
+**Preview network**
+```
+https://asset1xxx.preview.nftcdn.io/files/INDEX/
+```
+**Preprod network**
+```
+https://asset1xxx.preprod.nftcdn.io/files/INDEX/?tk=HMAC
+```
+**Mainnet network**
+```
+https://asset1xxx.YOUR_SUBDOMAIN.nftcdn.io/files/INDEX/?tk=HMAC
+```
+
+`asset1xxx` is the [CIP 14](https://cips.cardano.org/cips/cip14/) fingerprint of a token.
+
+`INDEX` is the file index in the metadata, starting from 0.
+
+The terminating `/` is required to correctly render NFTs that load assets from the same IPFS directory or Arweave manifest using relative links, for example some HTML NFTs.
+
+**preview** endpoint is public and does not require URLs to be authenticated.  
+**preprod** and **mainnet** ones are secured and require URLs to be authenticated.
+
+The `tk` authentication code is described [here](#authentication-code-tk-token-parameter).
+
+### Security
+
+To improve security, privacy and NFTs lifetime, all files are served with a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) set to:
+```
+default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:
+```
+This basically prevents NFTs to make requests or load assets from/to external domains, forcing them to be self-contained. Beyond the security & privacy benefits, this also gives more guarantees that the NFT rendering does not depend on external centralized servers to work properly. This is particularly useful for HTML or SVG files that can include JavaScript scripts.
+
+In addition, the [`sandbox`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox) property can also be used for additional restrictions when rendering an HTML NFT using an `<iframe>`.
+
+### Examples
+
+#### Audio file
+```
+<audio controls src="https://asset1yzm65ncsv6kafcnlusxfx05wjr2edradpjyu97.cardano.nftcdn.io/files/0?tk=aZXZEBsQnhfsGazF-43CmDNtPDyqSdqhxqIriPxZjqk"></audio>
+```
+https://asset1yzm65ncsv6kafcnlusxfx05wjr2edradpjyu97.cardano.nftcdn.io/files/0/?tk=U7xPuMRArqtnhNe_8V9hU2s3nmdHyqNqr7cvz1ajXYY
+
+#### Video file
+```
+<video controls src="https://asset1zgc5ggqjxyj9nxw79hwzp5h499yrf52lpd77rk.cardano.nftcdn.io/files/0/?tk=RjTkto2VR92sSECKGzd0SunAZJzju4xQPR0Q5Te5Oi4"></video>
+```
+https://asset1zgc5ggqjxyj9nxw79hwzp5h499yrf52lpd77rk.cardano.nftcdn.io/files/0/?tk=RjTkto2VR92sSECKGzd0SunAZJzju4xQPR0Q5Te5Oi4
+
+#### HTML NFT
+```
+<iframe sandbox="allow-scripts allow-downloads" src="https://asset15ww77n3qdp64estz23px26z6quek25p82a4cje.cardano.nftcdn.io/files/0/?tk=wWu0ePP5vYSHcnFQvowu2aMpIN1MSBxRi_k-hA3batE"></iframe>
+```
+https://asset15ww77n3qdp64estz23px26z6quek25p82a4cje.cardano.nftcdn.io/files/0/?tk=wWu0ePP5vYSHcnFQvowu2aMpIN1MSBxRi_k-hA3batE
 
 
 ## Authentication Code (`tk` token parameter)
@@ -165,7 +267,7 @@ Working examples for `preprod` in [JavaScript](nftcdn_hmac.js), [Python](nftcdn_
 
 Asset fingerprints can be computed using Open Source libraries, for example https://github.com/Emurgo/cip14-js in JavaScript.
 
-**Example:**  
+### Example
 https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?tk=ZZ388CZwJhhLzm2djfRwaaPb8I_w7luNh5hOHJ2Ev4I&size=128  
 ```
 <img src="https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?tk=ZZ388CZwJhhLzm2djfRwaaPb8I_w7luNh5hOHJ2Ev4I&size=128">
