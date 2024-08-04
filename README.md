@@ -1,5 +1,6 @@
 # nftcdn.io
 
+- [Supported Standards](#supported-standards)
 - [/image](#image)
     - [Size](#size)
 - [/preview](#preview-beta)
@@ -12,16 +13,19 @@
 
 **nftcdn.io** aims at making displaying Cardano NFTs as easy, efficient and secure as possible without requiring knowledge of the underlying standards and storage used.
 
-The first version `/image` endpoint focuses on speed and security over fidelity by providing an optimized still image from CIP25 (v1+v2), CIP68 (222/333/444) and CNFT v0.01 standards `image` property, as well as the [Mainnet Token Registry](https://github.com/cardano-foundation/cardano-token-registry) and [Testnet Token Registry](https://github.com/input-output-hk/metadata-registry-testnet).
-
-Later versions will focus on providing a more complete viewing experience.
+## Supported standards
+- CNFT v0.01 (used during the first months of Mary era while CIP-0025 was still a draft)
+- [CIP-0025](https://cips.cardano.org/cip/CIP-0025) version 1/2
+- [CIP-0026](https://cips.cardano.org/cip/CIP-0026) [Mainnet Token Registry](https://github.com/cardano-foundation/cardano-token-registry) & [Testnet Token Registry](https://github.com/input-output-hk/metadata-registry-testnet)
+- [CIP-0068](https://cips.cardano.org/cip/CIP-0068) 222/333/444 version 1/2/3
+- [Ada $handles](https://public.koralabs.io/documentation/HandleResolution.pdf) including virtual sub-handles
 
 
 ## /image
 
 The `/image` endpoint returns a token image usable in an HTML `<img>` tag.
 
-When `size` parameter is used, the returned image is always a rescaled and optimized still image (1 frame) in WebP format.
+When `size` parameter is used, the returned image is always a rescaled and optimized still image (1 frame) in WebP format. Are all images are then transcoded, this is the most secure way to display NFTs.
 
 **Preview network**
 ```
