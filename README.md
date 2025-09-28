@@ -299,8 +299,6 @@ To further protect users' bandwidth, requests are restricted to a single domain 
 ## Custom URL query parameters
 Custom URL query parameters are allowed as long as they are included when generating an URL HMAC.
 
-This can be useful to add internal details helping for later investigation as we plan to provide access to logs in the customer interface.
-
 
 ## HTTP Status Codes
 
