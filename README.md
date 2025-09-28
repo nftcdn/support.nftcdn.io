@@ -7,6 +7,7 @@
 - [/metadata](#metadata)
 - [/files](#files)
 - [Authentication Code](#authentication-code-tk-token-parameter)
+    - [Node.js 16+ JavaScript example](#nodejs-16-javascript-example)
 - [Hotlink Protection & CORS Restrictions](#hotlink-protection--cors-restrictions)
 - [HTTP Status Codes](#http-status-codes)
 - [References](#references)
