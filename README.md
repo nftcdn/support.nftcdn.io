@@ -16,6 +16,7 @@
 
 ## Supported standards
 - CNFT v0.01 (used during the first months of Mary era while CIP-0025 was still a draft)
+- CIP-0025 Draft (used during CIP25 [Pull Request](https://github.com/cardano-foundation/CIPs/pull/85) review)
 - [CIP-0025](https://cips.cardano.org/cip/CIP-0025) version 1/2
 - [CIP-0026](https://cips.cardano.org/cip/CIP-0026) [Mainnet Token Registry](https://github.com/cardano-foundation/cardano-token-registry) & [Testnet Token Registry](https://github.com/input-output-hk/metadata-registry-testnet)
 - [CIP-0068](https://cips.cardano.org/cip/CIP-0068) 222/333/444 version 1/2/3
