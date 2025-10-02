@@ -1,4 +1,4 @@
-# nftcdn.io
+# API Documentation
 
 - [Supported Standards](#supported-standards)
 - [/image](#image)
@@ -16,7 +16,6 @@
 
 ## Supported standards
 - CNFT v0.01 (used during the first months of Mary era while CIP-0025 was still a draft)
-- CIP-0025 Draft (used during CIP25 [Pull Request](https://github.com/cardano-foundation/CIPs/pull/85) review)
 - [CIP-0025](https://cips.cardano.org/cip/CIP-0025) version 1/2
 - [CIP-0026](https://cips.cardano.org/cip/CIP-0026) [Mainnet Token Registry](https://github.com/cardano-foundation/cardano-token-registry) & [Testnet Token Registry](https://github.com/input-output-hk/metadata-registry-testnet)
 - [CIP-0068](https://cips.cardano.org/cip/CIP-0068) 222/333/444 version 1/2/3
@@ -235,7 +234,7 @@ On `preprod`, the authentication code is also required for test purpose so the k
 
 ### URL authentication process:
 1. Build the URL including `tk` parameter with an empty value
-2. Generate the URL SHA256 HMAC using your secret key (provided in [base64](https://datatracker.ietf.org/doc/html/rfc4648#section-4))
+2. Generate the URL SHA256 HMAC using one of your secret keys (provided in [base64](https://datatracker.ietf.org/doc/html/rfc4648#section-4) in your [dashboard](/dashboard))
 3. Include the HMAC value encoded in [base64url](https://datatracker.ietf.org/doc/html/rfc4648#section-5) as the `tk` parameter value
 
 ⚠️  For a website, you should not expose your secret key in your frontend, so you would typically compute the HMAC codes from your backend, then send them or the whole URLs to your frontend to use them there. Depending on your architecture, it is likely beneficial to send those needed all at once as early as possible to avoid a lot of later requests.
@@ -269,7 +268,7 @@ let [domain, key] = ["preprod", Buffer.from("7FoxfBgV2k+RSz6UUts3/fG1edG7oIGXxdt
 console.log(nftcdnUrl(domain, key, "asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv", "/image", { size: 256 }));
 ```
 
-Working examples for `preprod` in [JavaScript](nftcdn_hmac.js), [Python](nftcdn_hmac.py), [Ruby](nftcdn_hmac.rb) and [PHP](nftcdn_hmac.php) are included in [the repository](/).
+Working examples for `preprod` in [JavaScript](https://github.com/nftcdn/support.nftcdn.io/blob/master/nftcdn_hmac.js), [Python](https://github.com/nftcdn/support.nftcdn.io/blob/master/nftcdn_hmac.py), [Ruby](https://github.com/nftcdn/support.nftcdn.io/blob/master/nftcdn_hmac.rb) and [PHP](https://github.com/nftcdn/support.nftcdn.io/blob/master/nftcdn_hmac.php) are included in [our support repository](https://github.com/nftcdn/support.nftcdn.io).
 
 Asset fingerprints can be computed using Open Source libraries, for example https://github.com/Emurgo/cip14-js in JavaScript.
 
@@ -286,9 +285,9 @@ https://asset1cpfcfxay6s73xez8srvhf0pydtd9yqs8hyfawv.preprod.nftcdn.io/image?tk=
 
 ## Hotlink Protection & CORS Restrictions
 
-To further protect users' bandwidth, requests are restricted to a single domain and limited optional related subdomains.
+To further protect users' bandwidth, requests are restricted to domains and/or subdomains explicitely listed in your [dashboard](/dashboard).
 
-**Hotlink Protection** check that requests [`Referer`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer) header match your domain. `null` referer is permitted as it is used by some privacy browser features or extensions and some proxies, but it is set by clients so a website cannot enforce it globally.
+**Hotlink Protection** check that requests [`Referer`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer) header match your domains. `null` referer is permitted as it is used by some privacy browser features or extensions and some proxies, but it is set by clients so a website cannot enforce it globally.
 
 **CORS** [`access-control-allow-origin`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) response header also allows only your domain.
 
@@ -299,7 +298,6 @@ To further protect users' bandwidth, requests are restricted to a single domain 
 ## Custom URL query parameters
 Custom URL query parameters are allowed as long as they are included when generating an URL HMAC.
 
-
 ## HTTP Status Codes
 
 * **`200`** or **`304`** is returned on success depending on request headers.
@@ -307,7 +305,7 @@ Custom URL query parameters are allowed as long as they are included when genera
 * **`403`** is returned on invalid HMAC or Referer.
 * **`404`** is returned when the token, image or metadata is not found.
 
-# References
+## References
 * [CIP 14 - User-Facing Asset Fingerprint](https://cips.cardano.org/cips/cip14/)
 * [CIP 25 - Media NFT Metadata Standard](https://cips.cardano.org/cips/cip25/)
 * [CIP 68 - Datum Metadata Standard](https://cips.cardano.org/cips/cip68/)
