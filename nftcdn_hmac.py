@@ -2,14 +2,14 @@
 
 import base64, hashlib, hmac, time, urllib.parse
 
-def nftcdn_url(domain, key, token, uri, params={}):
-    url = build_url(domain, token, uri, dict(params, tk=""))
+def nftcdn_url(domain, key, token, path, params={}):
+    url = build_url(domain, token, path, dict(params, tk=""))
     mac = base64.urlsafe_b64encode(hmac.new(key, url.encode('ascii'), digestmod=hashlib.sha256).digest())
-    return build_url(domain, token, uri, dict(params, tk=mac.decode('ascii').rstrip("=")))
+    return build_url(domain, token, path, dict(params, tk=mac.decode('ascii').rstrip("=")))
 
-def build_url(domain, token, uri, params):
+def build_url(domain, token, path, params):
     query = urllib.parse.urlencode(params)
-    return f"https://{token}.{domain}.nftcdn.io{uri}?{query}"
+    return f"https://{token}.{domain}.nftcdn.io{path}?{query}"
 
 # EXAMPLES
 

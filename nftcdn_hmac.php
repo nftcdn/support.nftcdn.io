@@ -1,18 +1,18 @@
 #!/usr/bin/env php
 
 <?php
-function nftcdn_url($domain, $key, $token, $uri, $params = array())
+function nftcdn_url($domain, $key, $token, $path, $params = array())
 {
   $params['tk'] = '';
-  $url = build_url($domain, $token, $uri, $params);
+  $url = build_url($domain, $token, $path, $params);
   $params['tk'] = base64url_encode(hash_hmac("sha256", $url, $key, true));
-  return build_url($domain, $token, $uri, $params);
+  return build_url($domain, $token, $path, $params);
 }
 
-function build_url($domain, $token, $uri, $params)
+function build_url($domain, $token, $path, $params)
 {
   $query = http_build_query($params);
-  return "https://{$token}.{$domain}.nftcdn.io{$uri}?{$query}";
+  return "https://{$token}.{$domain}.nftcdn.io{$path}?{$query}";
 }
 
 function base64url_encode($data)
