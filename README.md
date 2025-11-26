@@ -1,7 +1,8 @@
 # NFTCDN Support Repository
 
-You can open here issues when using https://nftcdn.io.
 See the [official documentation](https://nftcdn.io/doc).
+
+You can open here issues when using https://nftcdn.io.
 
 If you prefer, you can get live support in [NFTCDN Discord](https://discord.nftcdn.io) `#support` channel or ask for a private support channel there.
 
